@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Time Page</title>
+  <style>
+    body {
+      text-align: center;
+      font-family: 'Segoe UI', sans-serif;
+      transition: background-color 0.5s, color 0.5s;
+      padding: 50px;
+    }
+    .time {
+      font-size: 48px;
+      margin: 20px;
+    }
+    button {
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body id="body">
+  <h1>Current Time</h1>
+  <div class="time" id="clock">--:--:--</div>
+  <button onclick="toggleMode()">Toggle Light/Dark Mode</button>
+
+  <script>
+    function updateTime() {
+      const now = new Date();
+      const hours = now.getHours().toString().padStart(2, '0');
+      const mins = now.getMinutes().toString().padStart(2, '0');
+      const secs = now.getSeconds().toString().padStart(2, '0');
+      document.getElementById("clock").textContent = '${hours}:${mins}:${secs}';
+
+      let background, textColor;
+      if (hours >= 5 && hours < 12) {
+        background = "#FFF4CC"; // morning
+        textColor = "#000000";
+      } else if (hours >= 12 && hours < 18) {
+        background = "#FFE0B3"; // afternoon
+        textColor = "#000000";
+      } else {
+        background = "#001F3F"; // night
+        textColor = "#ffffff";
+      }
+
+      document.body.style.backgroundColor = background;
+      document.body.style.color = textColor;
+    }
+
+    let darkMode = false;
+
+    function toggleMode() {
+      darkMode = !darkMode;
+      if (darkMode) {
+        document.body.style.backgroundColor = "#000000";
+        document.body.style.color = "#ffffff";
+      } else {
+        updateTime(); // revert to time-based color and text
+      }
+    }
+
+    setInterval(updateTime, 1000);
+    updateTime(); // initial call
+  </script>
+</body>
+</html>
